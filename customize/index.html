@@ -25,8 +25,46 @@
       $("#editor").brickyeditor({
         ignoreHtml: true,
         templatesUrl: '/templates.html',
-        onChange: function(data) {
-          console.log(data.html);
+        onChange: function(json) {
+          console.log("************ onChange *****************")
+          console.log(json);
+          console.log("**************************************")
+        },
+        onLoad: function(editor) {
+          console.log("************ onLoad *****************")
+          console.log(editor);  // All information related to editor i.e, 1. html details, 2. options given in editor (templateUrl, ignore ) in this case, 3. contaniner(all methods and additional information)
+          console.log("**************************************")
+        },
+        onBlockAdd: function(block) {
+          console.log("************ onBlockAdd *****************")
+          console.log(block);
+          console.log("**************************************")
+          
+        },
+        onBlockDelete: function(block) {
+          console.log("************ onBlockDelete *****************")
+          console.log(block);
+          console.log("**************************************")
+        },
+        onBlockMove: function(block) {
+          console.log("************ onBlockMove *****************")
+          console.log(block);
+          console.log("**************************************")
+        },
+        onBlockSelect: function(block) {
+          console.log("************ onBlockSelect *****************")
+          console.log(block);
+          console.log("**************************************")
+        },
+        onBlockDeselect: function(block) {
+          console.log("************ onBlockDeselect *****************")
+          console.log(block);
+          console.log("**************************************")
+        },
+        onBlockUpdate: function(block) {
+          console.log("************ onBlockUpdate *****************")
+          console.log(block);
+          console.log("**************************************")
         }
       });
     });
