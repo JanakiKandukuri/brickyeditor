@@ -20,6 +20,8 @@ namespace BrickyEditor {
 
                 $field
                     .on('blur keyup paste input', () => {
+                        console.log("HtmlFieldS: bind: ");
+                        console.log($field);
                         this.setHtml($field.html());
                     })
                     .on('paste', (e) => {

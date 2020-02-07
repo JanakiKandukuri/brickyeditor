@@ -6,7 +6,7 @@ namespace BrickyEditor {
         public $html: JQuery;
         public $preview: JQuery;
 
-        public loaded: boolean = true;
+        public loaded: boolean = true; // To load template values in right panel
 
         constructor(el: Element) {
             const previewSelector = Selectors.selectorTemplatePreview;
@@ -15,6 +15,7 @@ namespace BrickyEditor {
             let data = $template.data();
 
             this.name = data.name;
+
             this.category = data.cactegory || [];
 
             this.$html = $template.contents().not(previewSelector);

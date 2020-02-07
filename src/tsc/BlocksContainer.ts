@@ -13,6 +13,7 @@ namespace BrickyEditor {
             private onSelectBlock: (block: Block) => any,
             private onDeselectBlock: (block: Block) => any,
             private onMoveBlock: (block: Block, from: number, to: number) => any,
+            private onDropBlock: (block: any, idx: number) => any,
             private onUpdateBlock: (block: Block, property: string, oldValue: any, newValue: any) => any,
             private onUpload: (file: any, callback: (url: string) => void) => void,
             private usePlaceholder: boolean = false) {
@@ -21,6 +22,7 @@ namespace BrickyEditor {
         }
 
         public getData(ignoreHtml?: Boolean): any {
+            console.log('BlocksContainer: getData');
             var blocksData = [];
             this.blocks.forEach(block => {
                 blocksData.push(block.getData(ignoreHtml));
@@ -29,15 +31,47 @@ namespace BrickyEditor {
         }
 
         public getHtml(): string {
+            console.log('BlocksContainer: getHtml');
             var blocksHtml = [];
             this.blocks.forEach(block => {
+                console.log('BlocksContainer: getHtml: recursive call');
                 blocksHtml.push(block.getHtml(true));
             });
 
             var blocksHtmlJoined = blocksHtml.join('\n');
             let $el = this.$element.clone(false, false).html(blocksHtmlJoined).wrap('<div></div>');
             const html = $('<div></div>').append($el).html();
+            console.log('BlocksContainer: getHtml: \n' + html);
             return html;
+        }
+
+        public dropBlock(
+            template: Template,
+            data?: Array<Fields.BaseField>,
+            idx?: number,
+            select: boolean = true) {
+
+            var dropBlock = {
+                html: this.$element,
+                template: template,
+                data: data,
+                idx: idx,
+                select: select
+            }
+
+            console.log('BlocksContainer: dropBlock: template: \n');
+            console.log(dropBlock);
+
+            this.onDropBlock(dropBlock, idx);
+
+
+
+            // return new Promise((resolve, reject) => {
+            //     setTimeout(() => {
+            //         resolve();
+            //     }, 5000);
+            // })
+
         }
 
         public addBlock(
@@ -46,6 +80,17 @@ namespace BrickyEditor {
             idx?: number,
             select: boolean = true) {
 
+            this.dropBlock(template, data, idx, select)
+                this.readyToInsert(template, data, idx, select);
+            // }).catch(() => {
+            //     console.log("BlocksContainer: Promise: error .....");
+            // });
+        }
+
+        public readyToInsert(template: Template,
+            data?: Array<Fields.BaseField>,
+            idx?: number,
+            select: boolean = true) {
             let block = new Block(
                 template,
                 false,
@@ -154,12 +199,12 @@ namespace BrickyEditor {
         }
 
         private togglePlaceholderIfNeed() {
-            if(!this.usePlaceholder) {
+            if (!this.usePlaceholder) {
                 return;
             }
 
-            if(this.blocks.length === 0) {
-                if(!this.$placeholder) {
+            if (this.blocks.length === 0) {
+                if (!this.$placeholder) {
                     this.$placeholder = $('<i data-bre-placeholder="true">Click here to select this container...</i>');
                     this.$element.append(this.$placeholder);
                 }

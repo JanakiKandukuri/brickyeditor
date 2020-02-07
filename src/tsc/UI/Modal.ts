@@ -53,6 +53,8 @@ namespace BrickyEditor {
                 modal.$okBtn.on('click', () => {
                     fields.forEach(field => field.parseValue());
                     modal.hideModal();
+                    console.log("Modal: promptAsync: ");
+                    console.log(fields);
                     const list = new Prompt.PromptParameterList(fields);
                     resolve(list);
                 });

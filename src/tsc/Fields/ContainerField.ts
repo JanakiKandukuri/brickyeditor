@@ -9,21 +9,22 @@ namespace BrickyEditor {
                 let field = this;
                 let $field = this.$field;
 
-                this.container = new BlocksContainer($field,
-                    (block: Block) => { 
-                        field.updateBlocks(); 
-                    },
-                    (block: Block) => { field.updateBlocks(); },
-                    (block: Block) => { this.select(); },
+                this.container = new BlocksContainer(
+                    $field,
+                    (block: Block) => { field.updateBlocks()},
+                    (block: Block) => { field.updateBlocks()},
+                    (block: Block) => { this.select()},
                     (block: Block) => { },
-                    (block: Block) => { field.updateBlocks(); },
-                    (block: Block) => { field.updateBlocks(); },
+                    (block: Block) => { field.updateBlocks()},
+                    (block: Block) => { field.updateBlocks() },
+                    (block: Block) => { field.updateBlocks() },
                     field.onUpload,
                     true);
 
                 $field.addClass(Selectors.selectorFieldContainer);
                 $field
-                    .on('click', (ev) => {                        
+                    .on('click', (ev) => {  
+                        console.log(field);                      
                         field.select();
                         ev.stopPropagation();
                         return false;

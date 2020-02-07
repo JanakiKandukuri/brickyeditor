@@ -137,6 +137,7 @@ namespace BrickyEditor {
                 this.data[prop] = value;
                 
                 if(fireUpdate) {
+                    console.log('BaseField: updateProperty')
                     this.onUpdate(prop, oldValue, value);
                 }
             }

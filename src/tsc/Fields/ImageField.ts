@@ -10,8 +10,14 @@ namespace BrickyEditor {
                 let data = this.data;
 
                 this.setSrc(this.data.src, false);
+
                 $field.on('click', async () => {
                     const fields = await Editor.UI.modal.promptAsync(field.getPromptParams());
+                    
+                    console.log("ImageFields: bind: ");
+                    
+                    console.log(fields);
+
                     if (fields != null) {
                         const file = fields.getValue('file');
                         const src = fields.getValue('src');

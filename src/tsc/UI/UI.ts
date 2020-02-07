@@ -87,6 +87,8 @@ namespace BrickyEditor {
 
         public setTemplates(templateGroups: TemplateGroup[]) {
             let editor = this.editor;
+            console.log("UI: setTemplates: ");
+            console.log(templateGroups);
             templateGroups.forEach(group => {
                 if(group.templates.length === 0)
                     return;
@@ -97,7 +99,7 @@ namespace BrickyEditor {
                 group.templates.forEach(template => {
                     let $preview = template.getPreview();
                     $preview.attr('title', template.name);
-                    $preview.on('click', (ev) => {
+                    $preview.on('click', (ev) => { // These is used for clicking on template blocks.                        
                         editor.addBlock(template);
                         ev.stopPropagation();
                         return false;
@@ -106,7 +108,7 @@ namespace BrickyEditor {
                 })
 
                 $header.on('click', () => {
-                    $group.toggle();
+                    $group.toggle(); // TODO change html here some where for icon on title toggle(J)
                 });
                 this.$toolsTemplates.append($group);
             });;

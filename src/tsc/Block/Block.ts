@@ -43,9 +43,13 @@ namespace BrickyEditor {
          */
         private bindFields($block: JQuery, data?: Array<Fields.BaseField>) {
             const block = this;
+
             const $fields = $block
                 .find(Selectors.selectorField)
                 .addBack(Selectors.selectorField);
+
+                console.log('Block: bindFields: addBack');
+                console.log($fields);
 
             $fields.each((idx, elem) => {
                 const onUpdate = (property: string, oldValue: any, newValue: any) => {
@@ -57,6 +61,7 @@ namespace BrickyEditor {
                     block.select(field);
                 };
                 let $field = $(elem);
+                
                 let field = Fields.BaseField.createField($field, data, onSelect, onUpdate, block.onUpload);
                 block.fields.push(field);
             });

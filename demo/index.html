@@ -15,12 +15,38 @@
   <script src="js/locales/jquery.brickyeditor.ru.js"></script>
   <script>
     $(function () {
+
+      
+
+
       $("#editor").brickyeditor({
         ignoreHtml: true,
         blocksUrl: 'data.json',
         templatesUrl: 'templates.html',
-        onChange: function(data) {
-          console.log(data.html);
+        onBlockAdd: function (data) {
+          console.log('onBlockAdd: \n' + data);
+        },
+        onChange: function (data) {
+          console.log('onChange: \n' + data);
+          // data.blocks[0].fields[0].html = "Updated Async Load";
+          // data.html = '<div id="editor" class="bre-editor"><span class="display-2">Updated Async Load</span></div>'
+        },
+        onBlockUpdate: function (data) {
+          console.log('onBlockUpdate: \n' + data);
+        },
+        onBlockDrop: function (data) {
+
+          var newEle = "<h6>Hello Change</h6>";
+
+
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              data.block.template.$html.empty();
+              data.block.template.$html.append(newEle);
+              resolve(data);
+            }, 200)
+          })
+
         }
       });
     });
@@ -29,6 +55,9 @@
 
 <body>
   <header>
+
+    
+    <p id="log"></p>
     <nav class="container navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="index.html">BrickyEditor</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
@@ -58,6 +87,26 @@
     </div>
     </div>
   </main>
+
+  <input type="text" placeholder="Type something here to see its length." size="50">
+<p></p>
+ 
+
+   
+  <script>
+  $( "input" )
+    .change(function () {
+      console.log("here")
+      $( "p" ).html( "abc" );
+    })
+
+    setTimeout(() => {
+      $("input").val("abc");
+    },500)
+
+
+  </script>
+
 </body>
 
 </html>

@@ -24,6 +24,12 @@ namespace BrickyEditor {
         public onBlockSelect: any;
         /** onBlockDeselect callback */
         public onBlockDeselect: any;
+
+        public onBlockDrop: () => Promise<any> ;
+
+        
+
+
         /** onBlockUpdate callback */
         public onBlockUpdate: any;
         
@@ -56,6 +62,9 @@ namespace BrickyEditor {
             this.onBlockMove = options.onBlockMove;
             this.onBlockSelect = options.onBlockSelect;
             this.onBlockDeselect = options.onBlockDeselect;
+
+            this.onBlockDrop = options.onBlockDrop;
+
             this.onBlockUpdate = options.onBlockUpdate;
             this.onError = options.onError || this.onError;
             this.onUpload = options.onUpload || null;

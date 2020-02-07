@@ -10,11 +10,12 @@ namespace BrickyEditor {
         public static UI: UI;        
         public options: EditorOptions;
 
+        
+
         private onError = (message: string, code: number = 0) => this.options.onError({ message: message, code: code});
 
-        constructor(
-            $editor: JQuery,
-            options: EditorOptions) {
+        constructor($editor: JQuery, options: EditorOptions) {
+
             Fields.BaseField.registerCommonFields();
             
             this.$editor = $editor;
@@ -22,7 +23,7 @@ namespace BrickyEditor {
             this.options = new EditorOptions(options);
             this.container = this.createContainer();
 
-            Editor.UI = new UI(this);            
+            Editor.UI = new UI(this);  
         }
 
         private createContainer(): BlocksContainer {
@@ -36,6 +37,11 @@ namespace BrickyEditor {
             const onDelete = (block: Block, idx: number) => {
                 this.trigger(Events.onBlockDelete, { block: block, idx: idx});
                 this.trigger(Events.onChange, { blocks: this.getData(), html: this.getHtml() });
+            }
+
+            const onDrop = (block: Block, idx: number) => {
+                console.log("Editor: onDrop: called")
+                console.log(this.trigger(Events.onBlockDrop, {block, idx}));
             }
 
             const onUpdate = (block, property, oldValue, newValue) => { 
@@ -58,8 +64,10 @@ namespace BrickyEditor {
                     this.trigger(Events.onBlockMove, { block: block, from: from, to: to });
                     this.trigger(Events.onChange, { blocks: this.getData(), html: this.getHtml() });
                 },
+                onDrop,
                 onUpdate,
-                this.options.onUpload
+                this.options.onUpload,
+                false
             );
         }
 
@@ -176,14 +184,17 @@ namespace BrickyEditor {
             return container;
         }
 
+        
+
         private trigger(event: string, data: any) {
             const editor = this;
             const $editor = this.$editor;
 
             $editor.trigger('bre.' + event, data);
+
             Common.propsEach(editor.options, (key, value) => {
                 if(key.breEqualsInvariant(event) && value) {
-                    value(data);
+                    return value(data);
                 }
             });
         }

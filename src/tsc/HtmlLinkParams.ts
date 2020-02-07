@@ -27,4 +27,4 @@ namespace BrickyEditor {
             return new HtmlLinkParams(href, title, target);
         }
     }
-}
+} 
